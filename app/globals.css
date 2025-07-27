@@ -1,26 +1,263 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-black text-white;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Minimal Professional AI Glitch */
+.glitch-ai-minimal {
+  position: relative;
+  animation: glitch-ai-professional 6s infinite;
+}
+
+.glitch-ai-minimal::before,
+.glitch-ai-minimal::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-ai-minimal::before {
+  animation: glitch-subtle-1 2s infinite;
+  color: #ff6600;
+  z-index: -1;
+  opacity: 0;
+}
+
+.glitch-ai-minimal::after {
+  animation: glitch-subtle-2 2s infinite;
+  color: #ffaa00;
+  z-index: -2;
+  opacity: 0;
+}
+
+@keyframes glitch-ai-professional {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  2% {
+    transform: translate(-1px, 0);
+  }
+  4% {
+    transform: translate(1px, 0);
+  }
+  6% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-subtle-1 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  2% {
+    transform: translate(1px, 0);
+    opacity: 0.5;
+  }
+  4% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-subtle-2 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  3% {
+    transform: translate(-1px, 0);
+    opacity: 0.3;
+  }
+  5% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+/* Professional Spin Animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
+
+/* Subtle Scanning Animation */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+/* Scroll Animations */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.animate-slide-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Professional Hover Effects */
+.hover\:glow-orange:hover {
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+}
+
+.hover\:glow-green:hover {
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+.hover\:glow-blue:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.hover\:glow-purple:hover {
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+}
+
+.hover\:glow-red:hover {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.hover\:glow-yellow:hover {
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+}
+
+.hover\:glow-cyan:hover {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+.hover\:glow-indigo:hover {
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
+
+.hover\:glow-pink:hover {
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .glitch-ai-minimal {
+    animation-duration: 8s;
+  }
+
+  .animate-spin-slow {
+    animation-duration: 40s;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Selection Styling */
+::selection {
+  background: #f97316;
+  color: #000;
+}
+
+/* Focus Styles */
+button:focus,
+a:focus {
+  outline: 1px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-ai-minimal,
+  .animate-spin-slow,
+  .animate-pulse,
+  .animate-scan {
+    animation: none;
+  }
+}
+
+/* Font Classes */
+.font-orbitron {
+  font-family: var(--font-orbitron), monospace;
+}
+
+.font-share-tech {
+  font-family: var(--font-share-tech), monospace;
+}
+
+.font-rajdhani {
+  font-family: var(--font-rajdhani), sans-serif;
+}
+
+/* Ensure no content cutting */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Professional opacity levels */
+.opacity-3 {
+  opacity: 0.03;
+}
+
+.opacity-5 {
+  opacity: 0.05;
+}
+
+/* Backdrop blur utilities */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
 }
