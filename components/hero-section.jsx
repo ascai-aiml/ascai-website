@@ -1,29 +1,64 @@
 "use client"
 
+// ==================== Imports ====================
+// import React core hooks
 import { useEffect, useState, useMemo, useCallback } from "react"
+
+// import Next.js Image component
 import Image from "next/image"
 
-export function HeroSection() {
-  const [horizontalBinary, setHorizontalBinary] = useState<string[]>([])
-  const [verticalBinary, setVerticalBinary] = useState<string[]>([])
+// ==================== Component ====================
 
-  // Memoize binary generation functions
+/**
+ * HeroSection component
+ *
+ * Displays a hero section with animated binary grids,
+ * subtle grid overlay, logo, titles, and system status.
+ * Includes both mobile and desktop layouts.
+ *
+ * @returns {JSX.Element} Rendered Hero Section component
+ */
+export function HeroSection() {
+  // ==================== State ====================
+  // Stores horizontal binary lines
+  const [horizontalBinary, setHorizontalBinary] = useState([])
+
+  // Stores vertical binary lines
+  const [verticalBinary, setVerticalBinary] = useState([])
+
+  // ==================== Functions ====================
+
+  /**
+   * Generates horizontal binary strings and updates state.
+   * Uses 25 lines, each 120 characters long.
+   */
   const generateHorizontalBinary = useCallback(() => {
     const lines = []
     for (let i = 0; i < 25; i++) {
-      lines.push(Array.from({ length: 120 }, () => (Math.random() > 0.5 ? "1" : "0")).join(""))
+      lines.push(
+        Array.from({ length: 120 }, () => (Math.random() > 0.5 ? "1" : "0")).join("")
+      )
     }
     setHorizontalBinary(lines)
   }, [])
 
+  /**
+   * Generates vertical binary strings and updates state.
+   * Uses 80 lines, each 30 characters long.
+   */
   const generateVerticalBinary = useCallback(() => {
     const lines = []
     for (let i = 0; i < 80; i++) {
-      lines.push(Array.from({ length: 30 }, () => (Math.random() > 0.5 ? "1" : "0")).join(""))
+      lines.push(
+        Array.from({ length: 30 }, () => (Math.random() > 0.5 ? "1" : "0")).join("")
+      )
     }
     setVerticalBinary(lines)
   }, [])
 
+  // ==================== Effects ====================
+
+  // On mount: generate initial binary and refresh every 8s
   useEffect(() => {
     generateHorizontalBinary()
     generateVerticalBinary()
@@ -36,12 +71,15 @@ export function HeroSection() {
     return () => clearInterval(interval)
   }, [generateHorizontalBinary, generateVerticalBinary])
 
-  // Memoize symbols array
+  // ==================== Memoized Data ====================
+
+  // Static list of symbols for UI
   const symbols = useMemo(() => ["</>", "in", "@", "#"], [])
 
+  // ==================== Render ====================
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-gradient-to-br from-black via-gray-950 to-black">
-      {/* Professional Binary Grid Background */}
+      {/* ===== Binary Grid Background ===== */}
       <div className="absolute inset-0 opacity-5">
         {/* Horizontal Binary Lines */}
         <div className="absolute inset-0">
@@ -74,22 +112,23 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Subtle Grid Overlay */}
+      {/* ===== Grid Overlay ===== */}
       <div className="absolute inset-0 opacity-5">
         <div
           className="w-full h-full"
           style={{
             backgroundImage: `
-            linear-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(249, 115, 22, 0.1) 1px, transparent 1px)
-          `,
+              linear-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(249, 115, 22, 0.1) 1px, transparent 1px)
+            `,
             backgroundSize: "50px 50px",
           }}
         ></div>
       </div>
 
+      {/* ===== Content Container ===== */}
       <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-6xl">
-        {/* Mobile Layout */}
+        {/* --- Mobile Layout --- */}
         <div className="md:hidden text-center space-y-8 py-12">
           {/* Logo */}
           <div className="flex justify-center mb-8">
@@ -99,12 +138,12 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* System Active */}
+          {/* Status */}
           <div className="inline-block px-4 py-2 border border-orange-500/50 text-orange-400 text-sm font-mono bg-black/80 backdrop-blur-sm">
             {"> SYSTEM ACTIVE"}
           </div>
 
-          {/* Main Title */}
+          {/* Titles */}
           <div className="space-y-4">
             <h1 className="text-5xl font-orbitron font-black text-white">
               ASC
@@ -120,12 +159,15 @@ export function HeroSection() {
             </h2>
           </div>
 
+          {/* Description */}
           <p className="text-gray-400 text-lg max-w-sm mx-auto font-rajdhani leading-relaxed">
             Professional computing intelligence research collective developing advanced technological solutions.
           </p>
 
+          {/* Greeting */}
           <div className="text-green-400 font-mono text-lg opacity-80">{"HELLO CHAMP"}</div>
 
+          {/* Symbols */}
           <div className="flex justify-center space-x-4 pb-8">
             {symbols.map((symbol, index) => (
               <div
@@ -138,7 +180,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Desktop Layout */}
+        {/* --- Desktop Layout --- */}
         <div className="hidden md:grid grid-cols-2 gap-16 items-center min-h-[70vh]">
           {/* Left Content */}
           <div className="space-y-6">
@@ -162,8 +204,7 @@ export function HeroSection() {
             </div>
 
             <p className="text-gray-400 text-lg max-w-lg font-rajdhani leading-relaxed">
-              Professional computing intelligence research collective developing advanced technological solutions and
-              educational frameworks.
+              Professional computing intelligence research collective developing advanced technological solutions and educational frameworks.
             </p>
 
             <div className="text-green-400 font-mono text-xl opacity-80">{"HELLO CHAMP"}</div>
@@ -188,6 +229,7 @@ export function HeroSection() {
               </div>
 
               <div className="w-72 h-72 relative">
+                {/* Rotating Circle with Points */}
                 <div className="absolute inset-0 border border-orange-500/30 rounded-full animate-spin-slow">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
@@ -202,6 +244,7 @@ export function HeroSection() {
                   ))}
                 </div>
 
+                {/* Logo Circle */}
                 <div className="absolute inset-6 bg-gray-900/20 rounded-full border border-orange-500/20 flex items-center justify-center backdrop-blur-sm">
                   <Image src="/ascai-logo.png" alt="ASCAI Logo" width={160} height={160} className="opacity-90" />
                 </div>

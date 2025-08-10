@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
 
 const teams = [
@@ -77,7 +76,7 @@ export function TeamStatusViewer() {
   const [currentTeam, setCurrentTeam] = useState(0)
   const [currentMember, setCurrentMember] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
-  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchStart, setTouchStart] = useState(null)
 
   // Memoize current team and member data
   const currentTeamData = useMemo(() => teams[currentTeam], [currentTeam])
@@ -102,16 +101,16 @@ export function TeamStatusViewer() {
   }, [isPlaying, currentTeamData.members.length])
 
   // Optimized handlers
-  const handleTeamChange = useCallback((teamIndex: number) => {
+  const handleTeamChange = useCallback((teamIndex) => {
     setCurrentTeam(teamIndex)
     setCurrentMember(0)
   }, [])
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e) => {
     setTouchStart(e.touches[0].clientX)
   }, [])
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+  const handleTouchEnd = useCallback((e) => {
     if (!touchStart) return
 
     const touchEnd = e.changedTouches[0].clientX
@@ -134,7 +133,7 @@ export function TeamStatusViewer() {
   }, [])
 
   // Memoize color classes
-  const getColorClasses = useCallback((color: string) => {
+  const getColorClasses = useCallback((color) => {
     const colorMap = {
       orange: "border-orange-500/50 text-orange-400 bg-orange-500/5",
       green: "border-green-500/50 text-green-400 bg-green-500/5",
@@ -143,7 +142,7 @@ export function TeamStatusViewer() {
       red: "border-red-500/50 text-red-400 bg-red-500/5",
       yellow: "border-yellow-500/50 text-yellow-400 bg-yellow-500/5",
     }
-    return colorMap[color as keyof typeof colorMap] || colorMap.orange
+    return colorMap[color] || colorMap.orange
   }, [])
 
   const currentColorClasses = useMemo(() => getColorClasses(currentTeamData.color), [getColorClasses, currentTeamData.color])

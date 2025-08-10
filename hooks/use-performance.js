@@ -16,7 +16,7 @@ export function usePerformance() {
   }, [router])
 
   // Smooth navigation function
-  const navigateTo = useCallback((href: string) => {
+  const navigateTo = useCallback((href) => {
     // Add a small delay for smooth transition
     setTimeout(() => {
       router.push(href)

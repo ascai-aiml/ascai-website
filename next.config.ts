@@ -25,9 +25,6 @@ const nextConfig: NextConfig = {
   // Compression
   compress: true,
 
-  // Enable SWC minification
-  swcMinify: true,
-
   // Optimize bundle size
   webpack: (config, { dev, isServer }) => {
     // Optimize bundle splitting
