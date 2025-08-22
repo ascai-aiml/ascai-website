@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base resets */
 @layer base {
   * {
     -webkit-font-smoothing: antialiased;
@@ -10,6 +11,254 @@
 
   body {
     @apply bg-black text-white;
+    overflow-x: hidden;
+  }
+}
+
+/* Simple Red Crosshair Cursor with Hover/Nav Variants */
+* {
+  cursor: none;
+}
+
+.cursor-crosshair {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  --cursor-color: #ff0000;
+  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1) rotate(0deg);
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+/* Horizontal Line */
+.cursor-crosshair::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: var(--cursor-color);
+  box-shadow: 0 0 10px var(--cursor-color);
+}
+
+/* Vertical Line */
+.cursor-crosshair::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 9px;
+  width: 2px;
+  height: 20px;
+  background: var(--cursor-color);
+  box-shadow: 0 0 10px var(--cursor-color);
+}
+
+/* General hover on interactive elements */
+.cursor-crosshair.hover {
+  --cursor-color: #ff4d4d;
+  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1.2) rotate(15deg);
+  filter: drop-shadow(0 0 8px #ff4d4d);
+}
+
+/* Navbar hover: more aggressive, slight jitter */
+.cursor-crosshair.menu-hover {
+  --cursor-color: #ff1a1a;
+  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1.35) rotate(45deg);
+  filter: drop-shadow(0 0 14px #ff1a1a);
+  animation: cursor-jitter 0.18s infinite;
+}
+
+@keyframes cursor-jitter {
+  0% { transform: translate(calc(var(--cursor-x, 0) + 0px), calc(var(--cursor-y, 0) + 0px)) scale(1.35) rotate(45deg); }
+  25% { transform: translate(calc(var(--cursor-x, 0) + 1px), calc(var(--cursor-y, 0) - 1px)) scale(1.35) rotate(45deg); }
+  50% { transform: translate(calc(var(--cursor-x, 0) - 1px), calc(var(--cursor-y, 0) + 1px)) scale(1.35) rotate(45deg); }
+  75% { transform: translate(calc(var(--cursor-x, 0) + 1px), calc(var(--cursor-y, 0) + 1px)) scale(1.35) rotate(45deg); }
+  100% { transform: translate(calc(var(--cursor-x, 0) + 0px), calc(var(--cursor-y, 0) + 0px)) scale(1.35) rotate(45deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  * {
+    cursor: auto;
+  }
+  
+  .cursor-crosshair {
+    display: none;
+  }
+}
+
+/* Keep the rest of your styles below (glitch text, titles, utilities, etc.) */
+
+/* Enhanced Glitch Cursor Effect */
+@keyframes cursor-glitch {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  10% {
+    transform: translate(2px, -2px) scale(1.1) rotate(5deg);
+    filter: hue-rotate(90deg);
+  }
+  20% {
+    transform: translate(-2px, 2px) scale(0.9) rotate(-5deg);
+    filter: hue-rotate(180deg);
+  }
+  30% {
+    transform: translate(1px, 1px) scale(1.05) rotate(3deg);
+    filter: hue-rotate(270deg);
+  }
+  40% {
+    transform: translate(-1px, -1px) scale(0.95) rotate(-3deg);
+    filter: hue-rotate(360deg);
+  }
+  50% {
+    transform: translate(3px, 0) scale(1.2) rotate(10deg);
+    filter: hue-rotate(45deg);
+  }
+  60% {
+    transform: translate(-3px, 0) scale(0.8) rotate(-10deg);
+    filter: hue-rotate(135deg);
+  }
+  70% {
+    transform: translate(0, 3px) scale(1.15) rotate(7deg);
+    filter: hue-rotate(225deg);
+  }
+  80% {
+    transform: translate(0, -3px) scale(0.85) rotate(-7deg);
+    filter: hue-rotate(315deg);
+  }
+  90% {
+    transform: translate(2px, 2px) scale(1.1) rotate(2deg);
+    filter: hue-rotate(45deg);
+  }
+}
+
+.custom-cursor.glitch {
+  animation: cursor-glitch 0.3s ease-in-out;
+}
+
+/* Special cursor effects for different elements */
+.custom-cursor.text-hover {
+  background: linear-gradient(45deg, #00ff88, #88ff00, #0088ff);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.8));
+}
+
+.custom-cursor.button-hover {
+  background: linear-gradient(45deg, #ff4400, #ff0088, #4400ff);
+  filter: drop-shadow(0 0 20px rgba(255, 68, 0, 0.9));
+}
+
+.custom-cursor.link-hover {
+  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+  filter: drop-shadow(0 0 18px rgba(0, 255, 255, 0.9));
+}
+
+/* Cursor for form elements */
+.custom-cursor.input-hover {
+  background: linear-gradient(45deg, #00ff00, #00ffff, #0000ff);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.8));
+}
+
+/* Responsive cursor for mobile */
+@media (max-width: 768px) {
+  * {
+    cursor: auto; /* Show default cursor on mobile */
+  }
+  
+  .custom-cursor,
+  .cursor-trail {
+    display: none; /* Hide custom cursor on mobile */
+  }
+}
+
+/* Cursor for dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+  .custom-cursor {
+    filter: drop-shadow(0 0 15px rgba(0, 255, 255, 1));
+  }
+}
+
+/* Enhanced Glitch Effects for Winners */
+.glitch-text {
+  position: relative;
+  animation: glitch-text-main 3s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.glitch-text::before {
+  animation: glitch-text-1 3s infinite;
+  color: #ff0000;
+  z-index: -1;
+}
+
+.glitch-text::after {
+  animation: glitch-text-2 3s infinite;
+  color: #00ffff;
+  z-index: -2;
+}
+
+@keyframes glitch-text-main {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(-1px, -1px);
+  }
+  60% {
+    transform: translate(1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+}
+
+@keyframes glitch-text-1 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(2px, 0);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-text-2 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-2px, 0);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(0);
+    opacity: 0;
   }
 }
 
@@ -106,7 +355,7 @@
 }
 
 /* Subtle Scanning Animation */
-@keyframes scan {
+@keyframes scan-subtle {
   0% {
     transform: translateY(-100%);
     opacity: 0;
@@ -120,8 +369,27 @@
   }
 }
 
-.animate-scan {
-  animation: scan 4s linear infinite;
+.animate-scan-subtle {
+  animation: scan-subtle 4s linear infinite;
+}
+
+/* Enhanced Scanning Animation */
+@keyframes scan-enhanced {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-scan-enhanced {
+  animation: scan-enhanced 6s linear infinite;
 }
 
 /* Scroll Animations */
@@ -134,6 +402,11 @@
 .animate-slide-up {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Smooth Panel Transitions */
+.winner-panel {
+  will-change: transform;
 }
 
 /* Professional Hover Effects */
@@ -220,7 +493,8 @@ a:focus {
   .glitch-ai-minimal,
   .animate-spin-slow,
   .animate-pulse,
-  .animate-scan {
+  .animate-scan,
+  .glitch-text {
     animation: none;
   }
 }
@@ -260,4 +534,80 @@ a:focus {
 
 .backdrop-blur-lg {
   backdrop-filter: blur(16px);
+}
+
+/* Enhanced Glitch for Titles */
+.glitch-title {
+  position: relative;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.glitch-title::before {
+  animation: glitch-1 2s infinite;
+  color: #ff0000;
+  z-index: -1;
+}
+
+.glitch-title::after {
+  animation: glitch-2 2s infinite;
+  color: #00ffff;
+  z-index: -2;
+}
+
+@keyframes glitch-1 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(2px, 2px);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(2px, -2px);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(2px, 0);
+    opacity: 0.6;
+  }
+  40% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-2px, 0);
+    opacity: 0.6;
+  }
+  80% {
+    transform: translate(0);
+    opacity: 0;
+  }
 }

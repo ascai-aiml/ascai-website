@@ -7,6 +7,7 @@ import "./globals.css";
 // Import shared layout components
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { SimpleCursor } from "@/components/simple-cursor";
 
 // Configure Orbitron font
 const orbitron = Orbitron({
@@ -50,6 +51,9 @@ export default function RootLayout({ children }) {
       className={`${orbitron.variable} ${shareTechMono.variable} ${rajdhani.variable}`}
     >
       <body className="bg-black text-white overflow-x-hidden">
+        {/* Simple Red Crosshair Cursor */}
+        <SimpleCursor />
+        
         {/* Navigation bar */}
         <Navigation />
 
