@@ -10,7 +10,7 @@ export default function VoicePage() {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
           <div className="inline-block px-3 py-1 border border-cyan-500 text-cyan-500 text-sm font-mono mb-4">
-            VOICE OF ASCIA
+            VOICE OF ASCAI
           </div>
           <h1 className="text-4xl md:text-6xl font-orbitron font-bold mb-8 text-cyan-400">COMING SOON</h1>
         </div>
@@ -23,7 +23,7 @@ export default function VoicePage() {
           <div className="border border-cyan-500/30 p-8 bg-black/60 backdrop-blur-sm hover:glow-cyan transition-all duration-300">
             <h3 className="text-2xl font-orbitron text-cyan-400 mb-4">WHAT TO EXPECT</h3>
             <p className="text-gray-300 font-rajdhani">
-              Voice of ASCIA will feature student testimonials, success stories, and insights from our community
+              Voice of ASCAI will feature student testimonials, success stories, and insights from our community
               members.
             </p>
           </div>

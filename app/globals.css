@@ -15,173 +15,6 @@
   }
 }
 
-/* Simple Red Crosshair Cursor with Hover/Nav Variants */
-* {
-  cursor: none;
-}
-
-.cursor-crosshair {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-  z-index: 9999;
-  --cursor-color: #ff0000;
-  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1) rotate(0deg);
-  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
-}
-
-/* Horizontal Line */
-.cursor-crosshair::before {
-  content: '';
-  position: absolute;
-  top: 9px;
-  left: 0;
-  width: 20px;
-  height: 2px;
-  background: var(--cursor-color);
-  box-shadow: 0 0 10px var(--cursor-color);
-}
-
-/* Vertical Line */
-.cursor-crosshair::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 9px;
-  width: 2px;
-  height: 20px;
-  background: var(--cursor-color);
-  box-shadow: 0 0 10px var(--cursor-color);
-}
-
-/* General hover on interactive elements */
-.cursor-crosshair.hover {
-  --cursor-color: #ff4d4d;
-  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1.2) rotate(15deg);
-  filter: drop-shadow(0 0 8px #ff4d4d);
-}
-
-/* Navbar hover: more aggressive, slight jitter */
-.cursor-crosshair.menu-hover {
-  --cursor-color: #ff1a1a;
-  transform: translate(var(--cursor-x, 0), var(--cursor-y, 0)) scale(1.35) rotate(45deg);
-  filter: drop-shadow(0 0 14px #ff1a1a);
-  animation: cursor-jitter 0.18s infinite;
-}
-
-@keyframes cursor-jitter {
-  0% { transform: translate(calc(var(--cursor-x, 0) + 0px), calc(var(--cursor-y, 0) + 0px)) scale(1.35) rotate(45deg); }
-  25% { transform: translate(calc(var(--cursor-x, 0) + 1px), calc(var(--cursor-y, 0) - 1px)) scale(1.35) rotate(45deg); }
-  50% { transform: translate(calc(var(--cursor-x, 0) - 1px), calc(var(--cursor-y, 0) + 1px)) scale(1.35) rotate(45deg); }
-  75% { transform: translate(calc(var(--cursor-x, 0) + 1px), calc(var(--cursor-y, 0) + 1px)) scale(1.35) rotate(45deg); }
-  100% { transform: translate(calc(var(--cursor-x, 0) + 0px), calc(var(--cursor-y, 0) + 0px)) scale(1.35) rotate(45deg); }
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  * {
-    cursor: auto;
-  }
-  
-  .cursor-crosshair {
-    display: none;
-  }
-}
-
-/* Keep the rest of your styles below (glitch text, titles, utilities, etc.) */
-
-/* Enhanced Glitch Cursor Effect */
-@keyframes cursor-glitch {
-  0%, 100% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-    filter: hue-rotate(0deg);
-  }
-  10% {
-    transform: translate(2px, -2px) scale(1.1) rotate(5deg);
-    filter: hue-rotate(90deg);
-  }
-  20% {
-    transform: translate(-2px, 2px) scale(0.9) rotate(-5deg);
-    filter: hue-rotate(180deg);
-  }
-  30% {
-    transform: translate(1px, 1px) scale(1.05) rotate(3deg);
-    filter: hue-rotate(270deg);
-  }
-  40% {
-    transform: translate(-1px, -1px) scale(0.95) rotate(-3deg);
-    filter: hue-rotate(360deg);
-  }
-  50% {
-    transform: translate(3px, 0) scale(1.2) rotate(10deg);
-    filter: hue-rotate(45deg);
-  }
-  60% {
-    transform: translate(-3px, 0) scale(0.8) rotate(-10deg);
-    filter: hue-rotate(135deg);
-  }
-  70% {
-    transform: translate(0, 3px) scale(1.15) rotate(7deg);
-    filter: hue-rotate(225deg);
-  }
-  80% {
-    transform: translate(0, -3px) scale(0.85) rotate(-7deg);
-    filter: hue-rotate(315deg);
-  }
-  90% {
-    transform: translate(2px, 2px) scale(1.1) rotate(2deg);
-    filter: hue-rotate(45deg);
-  }
-}
-
-.custom-cursor.glitch {
-  animation: cursor-glitch 0.3s ease-in-out;
-}
-
-/* Special cursor effects for different elements */
-.custom-cursor.text-hover {
-  background: linear-gradient(45deg, #00ff88, #88ff00, #0088ff);
-  filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.8));
-}
-
-.custom-cursor.button-hover {
-  background: linear-gradient(45deg, #ff4400, #ff0088, #4400ff);
-  filter: drop-shadow(0 0 20px rgba(255, 68, 0, 0.9));
-}
-
-.custom-cursor.link-hover {
-  background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
-  filter: drop-shadow(0 0 18px rgba(0, 255, 255, 0.9));
-}
-
-/* Cursor for form elements */
-.custom-cursor.input-hover {
-  background: linear-gradient(45deg, #00ff00, #00ffff, #0000ff);
-  filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.8));
-}
-
-/* Responsive cursor for mobile */
-@media (max-width: 768px) {
-  * {
-    cursor: auto; /* Show default cursor on mobile */
-  }
-  
-  .custom-cursor,
-  .cursor-trail {
-    display: none; /* Hide custom cursor on mobile */
-  }
-}
-
-/* Cursor for dark mode compatibility */
-@media (prefers-color-scheme: dark) {
-  .custom-cursor {
-    filter: drop-shadow(0 0 15px rgba(0, 255, 255, 1));
-  }
-}
-
 /* Enhanced Glitch Effects for Winners */
 .glitch-text {
   position: relative;
@@ -354,42 +187,280 @@
   animation: spin-slow 30s linear infinite;
 }
 
-/* Subtle Scanning Animation */
-@keyframes scan-subtle {
+/* Matrix-style Data Stream Animations */
+@keyframes matrix-stream-1 {
   0% {
     transform: translateY(-100%);
     opacity: 0;
   }
-  50% {
-    opacity: 0.3;
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(200%);
     opacity: 0;
   }
 }
 
-.animate-scan-subtle {
-  animation: scan-subtle 4s linear infinite;
-}
-
-/* Enhanced Scanning Animation */
-@keyframes scan-enhanced {
+@keyframes matrix-stream-2 {
   0% {
     transform: translateY(-100%);
     opacity: 0;
   }
-  50% {
+  15% {
+    opacity: 0.6;
+  }
+  85% {
     opacity: 0.6;
   }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(200%);
     opacity: 0;
   }
 }
 
-.animate-scan-enhanced {
-  animation: scan-enhanced 6s linear infinite;
+@keyframes matrix-stream-3 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-stream-4 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-stream-5 {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+
+.animate-matrix-stream-1 {
+  animation: matrix-stream-1 4s linear infinite;
+}
+
+.animate-matrix-stream-2 {
+  animation: matrix-stream-2 5s linear infinite;
+  animation-delay: 1s;
+}
+
+.animate-matrix-stream-3 {
+  animation: matrix-stream-3 6s linear infinite;
+  animation-delay: 2s;
+}
+
+.animate-matrix-stream-4 {
+  animation: matrix-stream-4 4.5s linear infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-matrix-stream-5 {
+  animation: matrix-stream-5 5.5s linear infinite;
+  animation-delay: 2.5s;
+}
+
+/* Radar Sweep Animation */
+@keyframes radar-sweep {
+  0% {
+    transform: translate(-50%, -100%) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -100%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 8s linear infinite;
+}
+
+/* Ping animations with different speeds */
+@keyframes ping-slow {
+  75%, 100% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes ping-slower {
+  75%, 100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+.animate-ping-slow {
+  animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-ping-slower {
+  animation: ping-slower 4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Data Flow Indicators */
+@keyframes data-flow-left {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes data-flow-right {
+  0% {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes data-flow-up {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes data-flow-down {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-data-flow-left {
+  animation: data-flow-left 2s ease-in-out infinite;
+}
+
+.animate-data-flow-right {
+  animation: data-flow-right 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-data-flow-up {
+  animation: data-flow-up 2.5s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-data-flow-down {
+  animation: data-flow-down 2.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Hexagonal Pattern - Updated to orange theme */
+.hexagon-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(249, 115, 22, 0.15) 1px, transparent 1px),
+    radial-gradient(circle at 75% 25%, rgba(251, 146, 60, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 25% 75%, rgba(245, 158, 11, 0.10) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(249, 115, 22, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 0, 0 10px, 10px 10px;
+  animation: hexagon-drift 10s linear infinite;
+}
+
+@keyframes hexagon-drift {
+  0% {
+    background-position: 0 0, 10px 0, 0 10px, 10px 10px;
+  }
+  100% {
+    background-position: 20px 20px, 30px 20px, 20px 30px, 30px 30px;
+  }
+}
+
+/* Hacker Logo Container Effects */
+.hacker-logo-container {
+  position: relative;
+}
+
+.hacker-logo-container::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 0deg, transparent, rgba(249, 115, 22, 0.2), transparent);
+  border-radius: inherit;
+  z-index: -1;
+  animation: rotate-border 8s linear infinite;
+}
+
+@keyframes rotate-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Scroll Animations */
@@ -455,6 +526,10 @@
   .animate-spin-slow {
     animation-duration: 40s;
   }
+  
+  .animate-radar-sweep {
+    animation-duration: 10s;
+  }
 }
 
 /* Scrollbar Styling */
@@ -494,7 +569,21 @@ a:focus {
   .animate-spin-slow,
   .animate-pulse,
   .animate-scan,
-  .glitch-text {
+  .glitch-text,
+  .animate-radar-sweep,
+  .animate-matrix-stream-1,
+  .animate-matrix-stream-2,
+  .animate-matrix-stream-3,
+  .animate-matrix-stream-4,
+  .animate-matrix-stream-5,
+  .animate-data-flow-left,
+  .animate-data-flow-right,
+  .animate-data-flow-up,
+  .animate-data-flow-down,
+  .animate-ping-slow,
+  .animate-ping-slower,
+  .hexagon-pattern,
+  .hacker-logo-container::before {
     animation: none;
   }
 }
@@ -609,5 +698,438 @@ a:focus {
   80% {
     transform: translate(0);
     opacity: 0;
+  }
+}
+
+/* Masonry helpers */
+.break-inside-avoid {
+  break-inside: avoid;
+}
+
+/* Gallery card hover glitch */
+.glitch-hover {
+  position: relative;
+}
+.glitch-hover::before,
+.glitch-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.glitch-hover::before {
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0 2px, transparent 2px 5px);
+}
+.glitch-hover::after {
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0 2px, transparent 2px 6px);
+}
+.glitch-hover:hover::before,
+.glitch-hover:hover::after {
+  opacity: 0.5;
+  animation: glitchFlash 0.45s steps(2, end);
+}
+
+/* Download lock container with soft inner glow + corner accents */
+.download-lock {
+  position: relative;
+}
+.download-lock::before,
+.download-lock::after {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+.download-lock::before {
+  left: 8px;
+  top: 8px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.download-lock::after {
+  right: 8px;
+  bottom: 8px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* Glitch frame around overlay */
+.glitch-frame::before,
+.glitch-frame::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
+  animation: frameJitter 1.4s infinite ease-in-out;
+  opacity: 0.65;
+  pointer-events: none;
+}
+.glitch-frame::after {
+  inset: -5px;
+  border-color: rgba(249, 115, 22, 0.4);
+  animation-duration: 1.9s;
+}
+@keyframes frameJitter {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-1px, 0);
+  }
+  40% {
+    transform: translate(1px, -1px);
+  }
+  60% {
+    transform: translate(0, 1px);
+  }
+  80% {
+    transform: translate(1px, 0);
+  }
+}
+
+@keyframes glitchFlash {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+/* Advanced Team Page Animations */
+
+/* Scan line animation for transitions */
+@keyframes scan {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-scan {
+  animation: scan 0.6s ease-in-out;
+}
+
+/* Glitch horizontal lines */
+@keyframes glitch-horizontal {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-glitch-horizontal {
+  animation: glitch-horizontal 2s infinite;
+}
+
+/* Terminal cursor blink */
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor {
+  animation: cursor-blink 1s infinite;
+}
+
+/* Data matrix rain effect */
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.animate-matrix-rain {
+  animation: matrix-rain 3s linear infinite;
+}
+
+/* Holographic shimmer */
+@keyframes holographic-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.holographic-text {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: holographic-shimmer 2s infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Circuit board pulse */
+@keyframes circuit-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+}
+
+.animate-circuit-pulse {
+  animation: circuit-pulse 3s ease-in-out infinite;
+}
+
+/* Power-up glow effect */
+@keyframes power-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 30px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.animate-power-glow {
+  animation: power-glow 2s ease-in-out infinite;
+}
+
+/* Terminal typing effect */
+@keyframes terminal-type {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-terminal-type {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: terminal-type 2s steps(40, end);
+}
+
+/* Neon stats display */
+.neon-stat {
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  transition: all 0.3s ease;
+}
+
+.neon-stat:hover {
+  border-color: rgba(34, 197, 94, 0.6);
+  box-shadow: 
+    0 0 10px rgba(34, 197, 94, 0.3),
+    inset 0 0 10px rgba(34, 197, 94, 0.1);
+}
+
+.neon-stat .stat-label {
+  color: rgba(34, 197, 94, 0.8);
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.neon-stat .stat-value {
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+/* Progress bar animation for team stats */
+@keyframes progress-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width, 100%);
+  }
+}
+
+.animate-progress {
+  animation: progress-fill 2s ease-out forwards;
+}
+
+/* Cyber grid background */
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+/* Floating particles for background */
+@keyframes float-particle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+.animate-float-particle {
+  animation: float-particle 6s ease-in-out infinite;
+}
+
+/* Enhanced button effects */
+.cyber-button {
+  position: relative;
+  background: transparent;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.cyber-button:hover::before {
+  transform: translateX(100%);
+}
+
+.cyber-button:hover {
+  box-shadow: 
+    0 0 20px rgba(34, 197, 94, 0.4),
+    inset 0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+/* Reel clip shape for team cards */
+.reel-clip {
+  clip-path: polygon(
+    0% 0%,
+    calc(100% - 20px) 0%,
+    100% 20px,
+    100% 100%,
+    20px 100%,
+    0% calc(100% - 20px)
+  );
+}
+
+/* Glitch slices for transition effect */
+.glitch-slices {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(
+      0deg,
+      transparent 0%,
+      rgba(255, 0, 0, 0.1) 20%,
+      transparent 21%,
+      transparent 40%,
+      rgba(0, 255, 255, 0.1) 60%,
+      transparent 61%,
+      transparent 80%,
+      rgba(255, 255, 0, 0.1) 100%
+    );
+  animation: glitch-slices-move 0.4s ease-in-out;
+}
+
+@keyframes glitch-slices-move {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+}
+
+/* Scanline effect */
+.scanline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: scanline-sweep 0.6s ease-in-out;
+}
+
+@keyframes scanline-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Enhanced reel progress animation */
+@keyframes reelProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
   }
 }

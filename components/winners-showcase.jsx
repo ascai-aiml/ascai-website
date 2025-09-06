@@ -225,11 +225,11 @@ export function WinnersShowcase({ eventsData }) {
       {/* Main Header */}
       <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
         {/* Cyberpunk Binary Background */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="font-mono text-xs text-green-400 whitespace-nowrap p-8 leading-tight">
+        <div className="absolute inset-0 opacity-25">
+          <div className="font-mono text-xs text-green-400 whitespace-nowrap p-8 leading-tight blur-sm">
             {Array.from({ length: 30 }, (_, i) => (
               <div key={i} className="mb-1">
-                {Array.from({ length: 80 }, (_, j) => ((i + j) % 2 === 0 ? "1" : "0")).join("")}
+                {Array.from({ length: 115 }, (_, j) => ((i + j) % 2 === 0 ? "1" : "0")).join("")}
               </div>
             ))}
           </div>
@@ -262,11 +262,11 @@ export function WinnersShowcase({ eventsData }) {
             {/* Event Header */}
             <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
               {/* Cyberpunk Binary Background */}
-              <div className="absolute inset-0 opacity-5">
-                <div className={`font-mono text-xs ${eventColors.primary} whitespace-nowrap p-8 leading-tight`}>
-                  {Array.from({ length: 25 }, (_, i) => (
+              <div className="absolute inset-0 opacity-25">
+                <div className={`font-mono text-xs ${eventColors.primary} whitespace-nowrap p-8 leading-tight blur-sm`}>
+                  {Array.from({ length: 30 }, (_, i) => (
                     <div key={i} className="mb-1">
-                      {Array.from({ length: 70 }, (_, j) => ((i + j + event.id) % 2 === 0 ? "1" : "0")).join("")}
+                      {Array.from({ length: 115 }, (_, j) => ((i + j + event.id) % 2 === 0 ? "1" : "0")).join("")}
                     </div>
                   ))}
                 </div>
@@ -295,13 +295,13 @@ export function WinnersShowcase({ eventsData }) {
                   return (
                     <div key={winner.id} className="winner-panel min-h-screen bg-black relative overflow-hidden">
                       {/* Cyberpunk Binary Background */}
-                      <div className="absolute inset-0 opacity-3">
+                      <div className="absolute inset-0 opacity-25">
                         <div
                           className={`font-mono text-xs ${colors.primary} whitespace-nowrap p-8 leading-tight blur-sm`}
                         >
-                          {Array.from({ length: 25 }, (_, i) => (
+                          {Array.from({ length: 30 }, (_, i) => (
                             <div key={i} className="mb-1">
-                              {Array.from({ length: 70 }, (_, j) => ((i + j + winner.id) % 2 === 0 ? "1" : "0")).join(
+                              {Array.from({ length: 115 }, (_, j) => ((i + j + winner.id) % 2 === 0 ? "1" : "0")).join(
                                 ""
                               )}
                             </div>

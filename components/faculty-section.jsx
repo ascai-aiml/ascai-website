@@ -1,105 +1,82 @@
+
 "use client";
 
-// Import React hooks
 import { useState, useEffect } from "react";
 
-/**
- * Faculty data list containing mentor details.
- * This is a static dataset for the faculty members.
- */
 const facultyData = [
   {
     id: 1,
     name: "MR. SANDEEP DWIVEDI",
     position: "Faculty Coordinator",
     department: "AIML Department",
-    initials: "SD",
+    image: "/faculty/sandeep.jpg",
   },
   {
     id: 2,
     name: "DR. FARHA HANEEF",
     position: "HOD - AIML",
     department: "AIML Department",
-    initials: "FH",
+    image: "/faculty/farha.jpg",
   },
 ];
 
-/**
- * FacultySection component
- * Displays faculty mentors with an animated binary reveal effect.
- *
- * @component
- * @returns {JSX.Element} Faculty mentors section with animation and navigation.
- */
 export function FacultySection() {
-  // Track the currently displayed faculty member
   const [currentFaculty, setCurrentFaculty] = useState(0);
-
-  // Track which animation blocks are visible
-  const [revealBlocks, setRevealBlocks] = useState([]);
-
-  // Track if we are on the client side (avoids hydration issues)
+  const [blockProgress, setBlockProgress] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(true);
   const [isClient, setIsClient] = useState(false);
 
-  // On component mount or faculty change, start the animation
+  // Animation settings
+  const BLOCK_COLS = 8;
+  const BLOCK_ROWS = 8;
+  const TOTAL_BLOCKS = BLOCK_COLS * BLOCK_ROWS;
+
+  // Fixed positions for glitch strips to avoid hydration mismatch
+  const glitchStrips = [
+    { left: 25, top: 15, width: 35 },
+    { left: 60, top: 45, width: 25 },
+    { left: 10, top: 75, width: 40 },
+    { left: 75, top: 25, width: 20 },
+    { left: 45, top: 60, width: 30 },
+    { left: 85, top: 80, width: 15 },
+    { left: 20, top: 35, width: 28 },
+    { left: 55, top: 10, width: 32 },
+    { left: 5, top: 50, width: 22 },
+    { left: 70, top: 70, width: 25 },
+    { left: 35, top: 85, width: 18 },
+    { left: 90, top: 5, width: 8 }
+  ];
+
   useEffect(() => {
     setIsClient(true);
+  }, []);
 
-    // Initialize reveal animation blocks
-    const totalBlocks = 64;
-    setRevealBlocks(new Array(totalBlocks).fill(true));
-
-    // Animate blocks disappearing to reveal faculty
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        setRevealBlocks((prev) => {
-          const newState = [...prev];
-          const trueIndices = newState
-            .map((val, idx) => (val ? idx : -1))
-            .filter((idx) => idx !== -1);
-
-          if (trueIndices.length > 0) {
-            const randomIndex =
-              trueIndices[Math.floor(Math.random() * trueIndices.length)];
-            newState[randomIndex] = false;
-          }
-          return newState;
-        });
-      }, 80);
-
-      // Stop the interval after 4 seconds
-      setTimeout(() => clearInterval(interval), 4000);
-    }, 500);
-
-    // Cleanup timer on unmount
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    setBlockProgress(0);
+    setIsAnimating(true);
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 2; // Faster progression
+      setBlockProgress(progress);
+      if (progress >= TOTAL_BLOCKS) {
+        clearInterval(interval);
+        setTimeout(() => setIsAnimating(false), 300);
+      }
+    }, 25);
+    return () => clearInterval(interval);
   }, [currentFaculty]);
 
-  /**
-   * Show next faculty member.
-   */
+  // Next/Prev navigation
   const nextFaculty = () => {
     setCurrentFaculty((prev) => (prev + 1) % facultyData.length);
-    setRevealBlocks(new Array(64).fill(true));
+    setIsAnimating(true);
   };
-
-  /**
-   * Show previous faculty member.
-   */
   const prevFaculty = () => {
-    setCurrentFaculty(
-      (prev) => (prev - 1 + facultyData.length) % facultyData.length
-    );
-    setRevealBlocks(new Array(64).fill(true));
+    setCurrentFaculty((prev) => (prev - 1 + facultyData.length) % facultyData.length);
+    setIsAnimating(true);
   };
 
-  // Get the current faculty data
   const faculty = facultyData[currentFaculty];
-
-  // Static binary pattern for visual background
-  const staticBinaryPattern = Array.from({ length: 15 }, () =>
-    "11001100101011010110100101101011010"
-  );
 
   return (
     <section className="py-20 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
@@ -122,37 +99,64 @@ export function FacultySection() {
 
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Faculty Display with Reveal Animation */}
+            {/* Left - Faculty Display with Block Loader Animation */}
             <div className="relative">
               <div className="relative w-full h-96 bg-gray-900/50 border-2 border-green-500/40 overflow-hidden">
-                {/* Binary Background - only render on client */}
-                {isClient && (
-                  <div className="absolute inset-0 font-mono text-xs text-green-400/20 p-4 leading-tight">
-                    {staticBinaryPattern.map((line, i) => (
-                      <div key={i} className="mb-1">
-                        {line}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Reveal animation grid */}
-                <div className="absolute inset-0 grid grid-cols-8 grid-rows-8">
-                  {revealBlocks.map((visible, index) => (
-                    <div
-                      key={index}
-                      className={`transition-opacity duration-300 ${
-                        visible ? "opacity-100" : "opacity-0"
-                      } bg-black border border-green-500/20`}
-                    />
-                  ))}
-                </div>
-
-                {/* Faculty initials display */}
-                <div className="absolute inset-8 flex items-center justify-center">
-                  <div className="text-7xl font-orbitron font-bold text-green-400">
-                    {faculty.initials}
-                  </div>
+                {/* Faculty image with glitch reveal effect */}
+                <div className="relative w-full h-full overflow-hidden">
+                  <img
+                    src={faculty.image}
+                    alt={faculty.name}
+                    className="w-full h-full object-cover rounded-none shadow-2xl"
+                    style={{
+                      filter: isAnimating ? 'brightness(0.3) contrast(1.2)' : 'none',
+                      transition: 'filter 0.4s ease-out'
+                    }}
+                  />
+                  
+                  {/* Sexy glitch reveal animation - only render on client */}
+                  {isClient && isAnimating && (
+                    <>
+                      {/* Scanning line effect */}
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-green-400 to-transparent opacity-80"
+                        style={{
+                          width: '4px',
+                          transform: `translateX(${(blockProgress / TOTAL_BLOCKS) * 100}%)`,
+                          transition: 'transform 0.1s ease-out',
+                          boxShadow: '0 0 20px #00ff00'
+                        }}
+                      />
+                      
+                      {/* Fixed glitch strips */}
+                      {glitchStrips.map((strip, i) => (
+                        <div
+                          key={i}
+                          className="absolute bg-black"
+                          style={{
+                            left: `${strip.left}%`,
+                            top: `${strip.top}%`,
+                            width: `${strip.width}%`,
+                            height: '3px',
+                            opacity: blockProgress > i * 5 ? 0 : 0.8,
+                            transition: 'opacity 0.2s ease-out',
+                            transitionDelay: `${i * 50}ms`
+                          }}
+                        />
+                      ))}
+                      
+                      {/* Matrix-style overlay */}
+                      <div 
+                        className="absolute inset-0 bg-black"
+                        style={{
+                          background: `linear-gradient(90deg, 
+                            transparent ${(blockProgress / TOTAL_BLOCKS) * 100}%, 
+                            rgba(0,0,0,0.9) ${(blockProgress / TOTAL_BLOCKS) * 100 + 1}%)`,
+                          transition: 'background 0.05s ease-out'
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -194,3 +198,5 @@ export function FacultySection() {
     </section>
   );
 }
+
+

@@ -1,15 +1,17 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  // Enable experimental features for better performance
+  // Experimental features
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+
+  // Turbopack config (replaces experimental.turbo)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
@@ -27,7 +29,6 @@ const nextConfig: NextConfig = {
 
   // Optimize bundle size
   webpack: (config, { dev, isServer }) => {
-    // Optimize bundle splitting
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
@@ -40,7 +41,6 @@ const nextConfig: NextConfig = {
         },
       }
     }
-
     return config
   },
 
@@ -50,18 +50,9 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
         ],
       },
       {
