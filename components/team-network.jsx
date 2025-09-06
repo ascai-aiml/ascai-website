@@ -51,7 +51,7 @@ export function TeamNetwork() {
 
                 {/* Team Node */}
                 <div
-                  className={`absolute w-20 h-16 border border-green-500 bg-black flex items-center justify-center cursor-pointer transition-all hover:scale-110 ${
+                  className={`absolute w-20 h-16 border border-green-500 bg-black flex items-center justify-center transition-all hover:scale-110 ${
                     selectedTeam === team.name ? "bg-green-500/20" : ""
                   }`}
                   style={{

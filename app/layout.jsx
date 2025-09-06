@@ -50,6 +50,7 @@ export default function RootLayout({ children }) {
       className={`${orbitron.variable} ${shareTechMono.variable} ${rajdhani.variable}`}
     >
       <body className="bg-black text-white overflow-x-hidden">
+        
         {/* Navigation bar */}
         <Navigation />
 

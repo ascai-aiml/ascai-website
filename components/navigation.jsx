@@ -29,14 +29,14 @@ export function Navigation() {
   const navItems = [
     { name: "HOME", href: "/" },
     { name: "TEAMS", href: "/teams" },
-    { name: "ABOUT", href: "/about" },
-    { name: "VOICE OF ASCIA", href: "/voice" },
+    { name: "NEWSLETTER", href: "/newsletter" },
+  { name: "VOICE OF ASCAI", href: "/voice" },
   ]
 
   // VORTEX event years
   const vortexYears = [
     { name: "VORTEX.AI 2024", href: "/vortex/2024" },
-    { name: "VORTEX.AI 2023", href: "/vortex/2023" },
+    // { name: "VORTEX.AI 2023", href: "/vortex/2023" },
   ]
 
   /**
