@@ -15,8 +15,12 @@ const eventsData = [
         avatar: "MM",
         color: "gold",
         photo: "/winners/typo1st.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'WPM': 132,
+          'Accuracy': '98%',
+          'Rounds Won': 5
+        },
+        technologies: ['Mechanical Keyboard', 'Speed Typing', 'Focus Mode'],
       },
       {
         id: 2,
@@ -27,8 +31,12 @@ const eventsData = [
         avatar: "RG",
         color: "silver",
         photo: "/winners/typo2nd.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'WPM': 120,
+          'Accuracy': '96%',
+          'Rounds Won': 4
+        },
+        technologies: ['Laptop', 'Typing Trainer', 'Calm Mind'],
       },
       {
         id: 3,
@@ -39,8 +47,12 @@ const eventsData = [
         avatar: "VH",
         color: "bronze",
         photo: "/winners/typo3rd.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'WPM': 110,
+          'Accuracy': '94%',
+          'Rounds Won': 3
+        },
+        technologies: ['Tablet', 'Quick Fingers', 'Practice'],
       },
     ],
   },
@@ -60,8 +72,12 @@ const eventsData = [
         avatar: "RJ",
         color: "gold",
         photo: "/winners/tech housie 1st.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'Tickets Called': 18,
+          'Full House': 'Yes',
+          'Luck Factor': 'High'
+        },
+        technologies: ['Housie Board', 'Number Scanner', 'Sharp Eyes'],
       },
       {
         id: 5,
@@ -71,9 +87,13 @@ const eventsData = [
         description: "🥈 2nd Place in Tech Housie",
         avatar: "SD",
         color: "silver",
-        photo: "/winners/placeholder.png",
-        stats: {},
-        technologies: [],
+        photo: "/winners/dummy.jpg",
+        stats: {
+          'Tickets Called': 15,
+          'Full House': 'No',
+          'Luck Factor': 'Medium'
+        },
+        technologies: ['Marker', 'Quick Marking', 'Patience'],
       },
       {
         id: 6,
@@ -83,9 +103,13 @@ const eventsData = [
         description: "🥉 3rd Place in Tech Housie",
         avatar: "SM",
         color: "bronze",
-        photo: "/winners/placeholder.png",
-        stats: {},
-        technologies: [],
+        photo: "/winners/dummy.jpg",
+        stats: {
+          'Tickets Called': 12,
+          'Full House': 'No',
+          'Luck Factor': 'Steady'
+        },
+        technologies: ['Board', 'Fast Hands', 'Observation'],
       },
     ],
   },
@@ -105,8 +129,12 @@ const eventsData = [
         avatar: "TD",
         color: "gold",
         photo: "/winners/bgmi1st.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'Kills': 23,
+          'Survival Time': '32m',
+          'Chicken Dinners': 2
+        },
+        technologies: ['4-Finger Claw', 'iPad', 'Voice Chat'],
       },
       {
         id: 8,
@@ -117,8 +145,12 @@ const eventsData = [
         avatar: "TE",
         color: "silver",
         photo: "/winners/bgmi.jpg",
-        stats: {},
-        technologies: [],
+        stats: {
+          'Kills': 17,
+          'Survival Time': '28m',
+          'Chicken Dinners': 1
+        },
+        technologies: ['Gyroscope', 'Android', 'Squad Play'],
       },
       {
         id: 9,
@@ -128,9 +160,13 @@ const eventsData = [
         description: "🥉 3rd Place in BGMI Tournament",
         avatar: "TH",
         color: "bronze",
-        photo: "/winners/placeholder.png",
-        stats: {},
-        technologies: [],
+        photo: "/winners/bgmi_3rd.avif",
+        stats: {
+          'Kills': 12,
+          'Survival Time': '22m',
+          'Chicken Dinners': 0
+        },
+        technologies: ['Thumb Player', 'Headphones', 'Strategy'],
       },
     ],
   },
