@@ -6,77 +6,94 @@ import { useState, useEffect } from "react";
 const facultyData = [
   {
     id: 1,
-    name: "MR. SANDEEP DWIVEDI",
-    position: "Faculty Coordinator",
-    department: "AIML Department",
-    image: "/faculty/sandeep.jpg",
-  },
-  {
-    id: 2,
     name: "DR. FARHA HANEEF",
     position: "HOD - AIML",
     department: "AIML Department",
     image: "/faculty/farha.jpg",
   },
+  {
+    id: 2,
+    name: "MR. SANDEEP DWIVEDI",
+    position: "Faculty Coordinator",
+    department: "AIML Department",
+    image: "/faculty/sandeep.jpg",
+  },
 ];
 
 export function FacultySection() {
   const [currentFaculty, setCurrentFaculty] = useState(0);
-  const [blockProgress, setBlockProgress] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-  const [isClient, setIsClient] = useState(false);
+  const [displayedFaculty, setDisplayedFaculty] = useState(0); // What we show in UI
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
 
-  // Animation settings
-  const BLOCK_COLS = 8;
-  const BLOCK_ROWS = 8;
-  const TOTAL_BLOCKS = BLOCK_COLS * BLOCK_ROWS;
+  // Touch/swipe handling for mobile
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
-  // Fixed positions for glitch strips to avoid hydration mismatch
-  const glitchStrips = [
-    { left: 25, top: 15, width: 35 },
-    { left: 60, top: 45, width: 25 },
-    { left: 10, top: 75, width: 40 },
-    { left: 75, top: 25, width: 20 },
-    { left: 45, top: 60, width: 30 },
-    { left: 85, top: 80, width: 15 },
-    { left: 20, top: 35, width: 28 },
-    { left: 55, top: 10, width: 32 },
-    { left: 5, top: 50, width: 22 },
-    { left: 70, top: 70, width: 25 },
-    { left: 35, top: 85, width: 18 },
-    { left: 90, top: 5, width: 8 }
-  ];
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // Reset touchEnd
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextFaculty(); // Swipe left = next
+    } else if (isRightSwipe) {
+      prevFaculty(); // Swipe right = previous
+    }
+  };
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    // Clean scan transition when switching faculty
+    setIsTransitioning(true);
+    setScanProgress(0);
+    
+    // Update displayed faculty after a short delay
+    setTimeout(() => {
+      setDisplayedFaculty(currentFaculty);
+    }, 300);
+    
+    // Animate scan line from 0 to 100%
+    const scanInterval = setInterval(() => {
+      setScanProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(scanInterval);
+          setTimeout(() => setIsTransitioning(false), 200);
+          return 100;
+        }
+        return prev + 4; // Smooth progression
+      });
+    }, 20);
 
-  useEffect(() => {
-    setBlockProgress(0);
-    setIsAnimating(true);
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 2; // Faster progression
-      setBlockProgress(progress);
-      if (progress >= TOTAL_BLOCKS) {
-        clearInterval(interval);
-        setTimeout(() => setIsAnimating(false), 300);
-      }
-    }, 25);
-    return () => clearInterval(interval);
+    return () => clearInterval(scanInterval);
   }, [currentFaculty]);
 
-  // Next/Prev navigation
+  // Next/Prev navigation with proper image transition
   const nextFaculty = () => {
-    setCurrentFaculty((prev) => (prev + 1) % facultyData.length);
-    setIsAnimating(true);
+    const newIndex = (currentFaculty + 1) % facultyData.length;
+    setCurrentFaculty(newIndex);
   };
+  
   const prevFaculty = () => {
-    setCurrentFaculty((prev) => (prev - 1 + facultyData.length) % facultyData.length);
-    setIsAnimating(true);
+    const newIndex = (currentFaculty - 1 + facultyData.length) % facultyData.length;
+    setCurrentFaculty(newIndex);
   };
 
-  const faculty = facultyData[currentFaculty];
+  const faculty = facultyData[currentFaculty]; // For image
+  const displayFaculty = facultyData[displayedFaculty]; // For text display
 
   return (
     <section className="py-20 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
@@ -98,82 +115,77 @@ export function FacultySection() {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Faculty Display with Block Loader Animation */}
+          <div 
+            className="grid lg:grid-cols-2 gap-16 items-center"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            {/* Left - Faculty Display with proper progressive reveal */}
             <div className="relative">
               <div className="relative w-full h-96 bg-gray-900/50 border-2 border-green-500/40 overflow-hidden">
-                {/* Faculty image with glitch reveal effect */}
+                {/* Faculty image - completely hidden during transition */}
                 <div className="relative w-full h-full overflow-hidden">
                   <img
                     src={faculty.image}
                     alt={faculty.name}
                     className="w-full h-full object-cover rounded-none shadow-2xl"
+                  />
+                  
+                  {/* Progressive reveal mask - covers the image and reveals it bit by bit */}
+                  <div 
+                    className="absolute inset-0 bg-black"
                     style={{
-                      filter: isAnimating ? 'brightness(0.3) contrast(1.2)' : 'none',
-                      transition: 'filter 0.4s ease-out'
+                      clipPath: isTransitioning 
+                        ? `polygon(0 ${scanProgress}%, 100% ${scanProgress}%, 100% 100%, 0 100%)`
+                        : 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)'
                     }}
                   />
                   
-                  {/* Sexy glitch reveal animation - only render on client */}
-                  {isClient && isAnimating && (
-                    <>
-                      {/* Scanning line effect */}
-                      <div 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-green-400 to-transparent opacity-80"
-                        style={{
-                          width: '4px',
-                          transform: `translateX(${(blockProgress / TOTAL_BLOCKS) * 100}%)`,
-                          transition: 'transform 0.1s ease-out',
-                          boxShadow: '0 0 20px #00ff00'
-                        }}
-                      />
-                      
-                      {/* Fixed glitch strips */}
-                      {glitchStrips.map((strip, i) => (
-                        <div
-                          key={i}
-                          className="absolute bg-black"
-                          style={{
-                            left: `${strip.left}%`,
-                            top: `${strip.top}%`,
-                            width: `${strip.width}%`,
-                            height: '3px',
-                            opacity: blockProgress > i * 5 ? 0 : 0.8,
-                            transition: 'opacity 0.2s ease-out',
-                            transitionDelay: `${i * 50}ms`
-                          }}
-                        />
-                      ))}
-                      
-                      {/* Matrix-style overlay */}
-                      <div 
-                        className="absolute inset-0 bg-black"
-                        style={{
-                          background: `linear-gradient(90deg, 
-                            transparent ${(blockProgress / TOTAL_BLOCKS) * 100}%, 
-                            rgba(0,0,0,0.9) ${(blockProgress / TOTAL_BLOCKS) * 100 + 1}%)`,
-                          transition: 'background 0.05s ease-out'
-                        }}
-                      />
-                    </>
+                  {/* Scanning line - moves with the reveal */}
+                  {isTransitioning && (
+                    <div 
+                      className="absolute w-full h-1 bg-green-400 shadow-[0_0_20px_#00ff00] z-20"
+                      style={{
+                        top: `${scanProgress}%`,
+                        transition: 'top 0.02s ease-out'
+                      }}
+                    />
+                  )}
+                  
+                  {/* Tech grid overlay only on revealed portion */}
+                  {isTransitioning && (
+                    <div 
+                      className="absolute inset-0 opacity-20 z-10"
+                      style={{
+                        background: `repeating-linear-gradient(
+                          0deg,
+                          transparent,
+                          transparent 3px,
+                          rgba(0, 255, 0, 0.3) 3px,
+                          rgba(0, 255, 0, 0.3) 4px
+                        )`,
+                        clipPath: `polygon(0 0, 100% 0, 100% ${scanProgress}%, 0 ${scanProgress}%)`
+                      }}
+                    />
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Right - Faculty Info */}
+            {/* Right - Faculty Info with no flickering */}
             <div className="space-y-8 text-center lg:text-left">
               <h3 className="text-3xl lg:text-4xl font-orbitron font-bold text-white">
-                {faculty.name}
+                {displayFaculty.name}
               </h3>
               <p className="text-green-400 font-rajdhani text-xl font-semibold">
-                {faculty.position}
+                {displayFaculty.position}
               </p>
               <p className="text-gray-400 font-rajdhani text-lg">
-                {faculty.department}
+                {displayFaculty.department}
               </p>
 
-              {/* Navigation buttons */}
+              {/* Navigation buttons - keeping your original style but with smooth transitions */}
               <div className="flex items-center justify-center lg:justify-start space-x-6 mt-8">
                 <button
                   onClick={prevFaculty}
@@ -182,7 +194,7 @@ export function FacultySection() {
                   {"<"}
                 </button>
                 <span className="font-mono text-gray-400 text-lg">
-                  {currentFaculty + 1} / {facultyData.length}
+                  {displayedFaculty + 1} / {facultyData.length}
                 </span>
                 <button
                   onClick={nextFaculty}

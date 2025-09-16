@@ -150,7 +150,7 @@ export function Navigation() {
 
       {/* Mobile Navigation */}
       <div
-        className={`fixed top-16 left-0 right-0 z-40 bg-black/98 backdrop-blur-lg border-b border-orange-500/30 transform transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-16 left-0 right-0 z-40 bg-black backdrop-blur-lg border-b border-orange-500/30 shadow-2xl transform transition-transform duration-300 ease-out md:hidden ${
           isOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >

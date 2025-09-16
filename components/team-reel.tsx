@@ -413,24 +413,31 @@ export default function TeamReel() {
   }, []);
 
   const [index, setIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0); // What we actually show
   const [playing, setPlaying] = useState(true);
   const [transitioning, setTransitioning] = useState(false);
   const timerRef = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
 
-  const current = reel[index];
-  const accent = ACCENT[current.accent];
+  const current = reel[index]; // For image
+  const displayed = reel[displayIndex]; // For text content
+  const accent = ACCENT[displayed.accent];
 
   const go = useCallback(
     (dir: 1 | -1) => {
       if (transitioning) return;
       setTransitioning(true);
+      
+      // Update display immediately to avoid mismatch
+      const newIndex = (index + dir + reel.length) % reel.length;
+      setDisplayIndex(newIndex);
+      
       window.setTimeout(() => {
-        setIndex((i) => (i + dir + reel.length) % reel.length);
+        setIndex(newIndex);
         setTransitioning(false);
       }, 420);
     },
-    [reel.length, transitioning]
+    [reel.length, transitioning, index]
   );
 
   const next = useCallback(() => go(1), [go]);
@@ -457,7 +464,13 @@ export default function TeamReel() {
   const onTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current == null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 48) dx < 0 ? next() : prev();
+    if (Math.abs(dx) > 48) {
+      if (dx < 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
     touchStartX.current = null;
   };
 
@@ -483,7 +496,7 @@ export default function TeamReel() {
               </div>
               <div className="mt-1 sm:mt-2 flex items-center justify-between text-[10px] sm:text-xs text-gray-400 font-mono">
                 <span>{">> ASCAI // TEAM REEL"}</span>
-                <span className={accent.text}>{current.groupName}</span>
+                <span className={accent.text}>{displayed.groupName}</span>
               </div>
             </div>
           </div>
@@ -514,40 +527,40 @@ export default function TeamReel() {
                 <div className="p-3 sm:p-4 md:p-6 flex flex-col h-full">
                   <div className="flex flex-wrap gap-2 text-[10px] sm:text-xs">
                     <span className={`px-2 py-0.5 border ${accent.chip}`}> 
-                      {current.team}
+                      {displayed.team}
                     </span>
                     <span className="px-2 py-0.5 border border-white/20 text-gray-300">
-                      {current.year}
+                      {displayed.year}
                     </span>
                   </div>
 
                   <h1
                     className={`mt-2 sm:mt-3 md:mt-4 font-orbitron font-extrabold leading-tight truncate ${accent.text} text-xl sm:text-2xl md:text-4xl`}
                   >
-                    {current.name}
+                    {displayed.name}
                   </h1>
 
                   <p className="mt-1 font-rajdhani text-sm sm:text-base md:text-lg text-gray-300">
-                    {current.position}
+                    {displayed.position}
                   </p>
 
                   {/* Stats */}
                   <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div className="neon-stat text-center px-2 py-2">
                       <div className="stat-label text-[10px] sm:text-xs">TEAM</div>
-                      <div className="stat-value text-sm">{current.team}</div>
+                      <div className="stat-value text-sm">{displayed.team}</div>
                     </div>
                     <div className="neon-stat text-center px-2 py-2">
                       <div className="stat-label text-[10px] sm:text-xs">
                         POSITION
                       </div>
-                      <div className="stat-value text-sm">{current.position}</div>
+                      <div className="stat-value text-sm">{displayed.position}</div>
                     </div>
                     <div className="neon-stat text-center px-2 py-2">
                       <div className="stat-label text-[10px] sm:text-xs">SOCIAL</div>
                       <div className="stat-value flex justify-center">
                         <a
-                          href={current.social?.linkedin || "#"}
+                          href={displayed.social?.linkedin || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 hover:text-blue-400 text-sm"
@@ -632,7 +645,7 @@ export default function TeamReel() {
               </div>
               <div className="mt-2 flex items-center justify-between text-xs text-gray-400 font-mono">
                 <span>{">> ASCAI // TEAM REEL"}</span>
-                <span className={accent.text}>{current.groupName}</span>
+                <span className={accent.text}>{displayed.groupName}</span>
               </div>
             </div>
           </div>
@@ -684,17 +697,17 @@ export default function TeamReel() {
                 {/* Details */}
                 <div className="p-4 md:p-6 flex flex-col h-full">
                   <div className="flex items-center gap-2 text-[11px] md:text-xs">
-                    <span className={`px-2 py-1 border ${accent.chip}`}>{current.team}</span>
-                    <span className="px-2 py-1 border border-white/20 text-gray-300">{current.year}</span>
+                    <span className={`px-2 py-1 border ${accent.chip}`}>{displayed.team}</span>
+                    <span className="px-2 py-1 border border-white/20 text-gray-300">{displayed.year}</span>
                   </div>
 
                   <h1
                     className={["mt-3 md:mt-4 font-orbitron font-extrabold leading-tight","text-2xl md:text-4xl",accent.text,].join(" ")}
                   >
-                    {current.name}
+                    {displayed.name}
                   </h1>
 
-                  <p className="mt-1 font-rajdhani text-base md:text-lg text-gray-300">{current.position}</p>
+                  <p className="mt-1 font-rajdhani text-base md:text-lg text-gray-300">{displayed.position}</p>
 
                   {/* Divider */}
                   <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -703,19 +716,19 @@ export default function TeamReel() {
                   <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     <div className="neon-stat text-center px-2 py-3">
                       <div className="stat-label text-xs sm:text-sm">TEAM</div>
-                      <div className="stat-value text-sm sm:text-base">{current.team}</div>
+                      <div className="stat-value text-sm sm:text-base">{displayed.team}</div>
                     </div>
 
                     <div className="neon-stat text-center px-2 py-3">
                       <div className="stat-label text-xs sm:text-sm">POSITION</div>
-                      <div className="stat-value text-sm sm:text-base">{current.position}</div>
+                      <div className="stat-value text-sm sm:text-base">{displayed.position}</div>
                     </div>
 
                     <div className="neon-stat text-center px-2 py-3">
                       <div className="stat-label text-xs sm:text-sm">SOCIAL</div>
                       <div className="stat-value flex items-center justify-center gap-1 text-sm sm:text-base">
                         <a
-                          href={current.social?.linkedin || "#"}
+                          href={displayed.social?.linkedin || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 hover:text-blue-400 transition"
@@ -755,7 +768,7 @@ export default function TeamReel() {
 
                     {/* Reel index */}
                     <div className="font-mono text-xs text-gray-400">
-                      {index + 1}/{reel.length}
+                      {displayIndex + 1}/{reel.length}
                     </div>
                   </div>
                 </div>

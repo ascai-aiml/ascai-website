@@ -3,7 +3,7 @@ import Image from "next/image";
 const TEAM_GROUPS = [
   {
     name: "Technical Team",
-    photo: "/teams/technical-team.jpg",
+    photo: "/teams/technical-team.JPG",
     phrase: "Innovating the future.",
     members: [
       "Rupesh Nandale (T.E) – Head",
@@ -15,7 +15,7 @@ const TEAM_GROUPS = [
   },
   {
     name: "Public Relations Team",
-    photo: "/teams/pr-team.jpg",
+    photo: "/teams/pr-team.JPG",
     phrase: "Connecting people and ideas.",
     members: [
       "Nidhi Thakur (T.E) – Head",
@@ -27,7 +27,7 @@ const TEAM_GROUPS = [
   },
   {
     name: "Media Team",
-    photo: "/teams/media-team.jpg",
+    photo: "/teams/media-team.JPG",
     phrase: "Capturing every moment.",
     members: [
       "Francis Bhingare (T.E) – Head",
@@ -50,7 +50,7 @@ const TEAM_GROUPS = [
   },
   {
     name: "Documentation Team",
-    photo: "/teams/documentation-team.jpg",
+    photo: "/teams/documentation-team.JPG",
     phrase: "Recording every detail.",
     members: [
       "Shivani Parmar (T.E) – Head",
@@ -62,7 +62,7 @@ const TEAM_GROUPS = [
   },
   {
     name: "Design Team",
-    photo: "/teams/design-team.jpg",
+    photo: "/teams/design-team.JPG",
     phrase: "Creativity in action.",
     members: [
       "Dnyanada Patil (T.E) – Head",
