@@ -390,6 +390,7 @@ const ACCENT = {
 } as const;
 
 export default function TeamReel() {
+  // All logic and state above
   const reel = useMemo(() => {
     const items: Array<
       Member & {
@@ -460,137 +461,322 @@ export default function TeamReel() {
     touchStartX.current = null;
   };
 
+  // Responsive rendering: mobile (below sm) and desktop (sm and up)
   return (
-    <main className="relative min-h-screen w-full overflow-y-auto bg-black">
-      {/* Top bar */}
-      <div className="sticky top-0 left-0 right-0 z-30 px-3 pt-3 sm:px-4 sm:pt-4 bg-black/80 backdrop-blur-md">
-        <div className="mx-auto max-w-6xl">
-          <div className="h-1 w-full bg-white/10 rounded overflow-hidden">
+    <>
+      {/* Mobile view: below sm */}
+      <div className="sm:hidden">
+        {/* ...mobile JSX block (same as before)... */}
+        {/* ...existing code... */}
+        <main className="relative min-h-screen w-full overflow-y-auto bg-black">
+          {/* Top bar */}
+          <div className="sticky top-0 left-0 right-0 z-30 px-3 pt-3 sm:px-4 sm:pt-4 bg-black/80 backdrop-blur-md">
+            <div className="mx-auto max-w-6xl">
+              <div className="h-1 w-full bg-white/10 rounded overflow-hidden">
+                <div
+                  key={`${index}-${playing ? "p" : "s"}`}
+                  className={`h-full ${accent.bar}`}
+                  style={{
+                    animation: playing ? "reelProgress 4s linear forwards" : undefined,
+                  }}
+                />
+              </div>
+              <div className="mt-1 sm:mt-2 flex items-center justify-between text-[10px] sm:text-xs text-gray-400 font-mono">
+                <span>{">> ASCAI // TEAM REEL"}</span>
+                <span className={accent.text}>{current.groupName}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Reel card */}
+          <section
+            className="relative z-10 flex items-center justify-center px-2 sm:px-4 py-16 sm:py-20"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div
-              key={`${index}-${playing ? "p" : "s"}`}
-              className={`h-full ${accent.bar}`}
+              className={`relative w-full max-w-6xl bg-black/70 backdrop-blur-lg border border-white/10 ring-1 ${accent.ring} ${accent.glow}`}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-[0.9fr_1fr] gap-2 sm:gap-4 md:gap-6">
+                {/* Image */}
+                <div className="relative flex items-center justify-center p-2 sm:p-4 aspect-[4/5] w-full max-w-xs sm:max-w-md mx-auto overflow-hidden">
+                  <Image
+                    src={current.image || "/placeholder.svg"}
+                    alt={current.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 400px"
+                    className="object-cover w-full h-full rounded-xl border border-neutral-800 shadow-lg"
+                    priority
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="p-3 sm:p-4 md:p-6 flex flex-col h-full">
+                  <div className="flex flex-wrap gap-2 text-[10px] sm:text-xs">
+                    <span className={`px-2 py-0.5 border ${accent.chip}`}> 
+                      {current.team}
+                    </span>
+                    <span className="px-2 py-0.5 border border-white/20 text-gray-300">
+                      {current.year}
+                    </span>
+                  </div>
+
+                  <h1
+                    className={`mt-2 sm:mt-3 md:mt-4 font-orbitron font-extrabold leading-tight truncate ${accent.text} text-xl sm:text-2xl md:text-4xl`}
+                  >
+                    {current.name}
+                  </h1>
+
+                  <p className="mt-1 font-rajdhani text-sm sm:text-base md:text-lg text-gray-300">
+                    {current.position}
+                  </p>
+
+                  {/* Stats */}
+                  <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div className="neon-stat text-center px-2 py-2">
+                      <div className="stat-label text-[10px] sm:text-xs">TEAM</div>
+                      <div className="stat-value text-sm">{current.team}</div>
+                    </div>
+                    <div className="neon-stat text-center px-2 py-2">
+                      <div className="stat-label text-[10px] sm:text-xs">
+                        POSITION
+                      </div>
+                      <div className="stat-value text-sm">{current.position}</div>
+                    </div>
+                    <div className="neon-stat text-center px-2 py-2">
+                      <div className="stat-label text-[10px] sm:text-xs">SOCIAL</div>
+                      <div className="stat-value flex justify-center">
+                        <a
+                          href={current.social?.linkedin || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 hover:text-blue-400 text-sm"
+                        >
+                          <Linkedin size={14} />
+                          <span className="hidden sm:inline">LinkedIn</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <div className="hidden sm:flex items-center gap-2">
+                      <button
+                        onClick={prev}
+                        className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
+                      >
+                        <ChevronLeft className="h-5 w-5 text-white" />
+                      </button>
+                      <button
+                        onClick={() => setPlaying((p) => !p)}
+                        className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
+                      >
+                        {playing ? (
+                          <Pause className="h-5 w-5 text-white" />
+                        ) : (
+                          <Play className="h-5 w-5 text-white" />
+                        )}
+                      </button>
+                      <button
+                        onClick={next}
+                        className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
+                      >
+                        <ChevronRight className="h-5 w-5 text-white" />
+                      </button>
+                    </div>
+                    <div className="font-mono text-[10px] sm:text-xs text-gray-400">
+                      {index + 1}/{reel.length}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* bottom hints */}
+          <div className="pb-6 text-center text-[10px] sm:text-xs text-gray-400 font-mono">
+            SWIPE • ARROWS • SPACE
+          </div>
+        </main>
+      </div>
+      {/* Desktop view: sm and up */}
+      <div className="hidden sm:block">
+        {/* ...desktop JSX block (same as before)... */}
+        {/* ...existing code... */}
+        <main className="relative h-[100dvh] w-full min-h-screen overflow-y-auto bg-black" data-team-reel>
+          {/* Binary/tiles background */}
+          <div className="absolute inset-0 opacity-30  pointer-events-none">
+            <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+            <div
+              className="absolute inset-0 mix-blend-screen"
               style={{
-                animation: playing ? "reelProgress 4s linear forwards" : undefined,
+                background:
+                  "radial-gradient(600px 600px at 30% 20%, rgba(249,115,22,0.12), transparent 60%), radial-gradient(600px 600px at 70% 80%, rgba(6,182,212,0.12), transparent 60%), radial-gradient(600px 600px at 80% 10%, rgba(168,85,247,0.12), transparent 60%)",
               }}
             />
           </div>
-          <div className="mt-1 sm:mt-2 flex items-center justify-between text-[10px] sm:text-xs text-gray-400 font-mono">
-            <span>{">> ASCAI // TEAM REEL"}</span>
-            <span className={accent.text}>{current.groupName}</span>
-          </div>
-        </div>
-      </div>
 
-      {/* Reel card */}
-      <section
-        className="relative z-10 flex items-center justify-center px-2 sm:px-4 py-16 sm:py-20"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        <div
-          className={`relative w-full max-w-6xl bg-black/70 backdrop-blur-lg border border-white/10 ring-1 ${accent.ring} ${accent.glow}`}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-[0.9fr_1fr] gap-2 sm:gap-4 md:gap-6">
-            {/* Image */}
-            <div className="relative flex items-center justify-center p-2 sm:p-4 aspect-[4/5] w-full max-w-xs sm:max-w-md mx-auto overflow-hidden">
-              <Image
-                src={current.image || "/placeholder.svg"}
-                alt={current.name}
-                fill
-                sizes="(max-width: 640px) 100vw, 400px"
-                className="object-cover w-full h-full rounded-xl border border-neutral-800 shadow-lg"
-                priority
+          {/* Top bar with progress */}
+          <div className="absolute left-0 right-0 top-0 z-30 px-4 pt-4">
+            <div className="mx-auto max-w-6xl">
+              <div className="h-1 w-full bg-white/10 overflow-hidden rounded">
+                {/* Progress animates only while playing */}
+                <div
+                  key={`${index}-${playing ? "p" : "s"}`}
+                  className={`h-full ${accent.bar} transition-none`}
+                  style={{
+                    animation: playing ? "reelProgress 4s linear forwards" : undefined,
+                  }}
+                />
+              </div>
+              <div className="mt-2 flex items-center justify-between text-xs text-gray-400 font-mono">
+                <span>{">> ASCAI // TEAM REEL"}</span>
+                <span className={accent.text}>{current.groupName}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Reel card */}
+          <section
+            className="relative z-10 h-full w-full flex items-center justify-center px-4 select-none"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
+            <div
+              className={["relative w-full max-w-6xl","reel-clip bg-black/70 backdrop-blur-lg border border-white/10","ring-1",accent.ring,accent.glow,].join(" ")}
+            >
+              {/* Media + details grid that reflows on mobile */}
+              <div className="grid grid-cols-1 md:grid-cols-[0.8fr_1fr] gap-0 md:gap-6">
+                {/* Media */}
+                <div className="relative aspect-[4/5] md:aspect-[10/9] overflow-hidden">
+                  {/* Image */}
+                  <Image
+                    src={current.image || "/placeholder.svg"}
+                    alt={current.name}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+
+                  {/* Subtle scanlines */}
+                  <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-overlay bg-[repeating-linear-gradient(0deg,rgba(255,255,255,.06)_0_1px,transparent_1px_3px)]" />
+
+                  {/* Cyber corners */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div
+                      className="absolute -left-px top-4 h-10 w-px bg-gradient-to-b from-transparent via-white/60 to-transparent"
+                    />
+                    <div
+                      className="absolute -right-px bottom-4 h-10 w-px bg-gradient-to-b from-transparent via-white/60 to-transparent"
+                    />
+                  </div>
+
+                  {/* Transition overlays */}
+                  {transitioning && (
+                    <>
+                      <div className={`absolute inset-0 scanline ${accent.scan}`} />
+                      <div className="absolute inset-0 glitch-slices" />
+                    </>
+                  )}
+                </div>
+
+                {/* Details */}
+                <div className="p-4 md:p-6 flex flex-col h-full">
+                  <div className="flex items-center gap-2 text-[11px] md:text-xs">
+                    <span className={`px-2 py-1 border ${accent.chip}`}>{current.team}</span>
+                    <span className="px-2 py-1 border border-white/20 text-gray-300">{current.year}</span>
+                  </div>
+
+                  <h1
+                    className={["mt-3 md:mt-4 font-orbitron font-extrabold leading-tight","text-2xl md:text-4xl",accent.text,].join(" ")}
+                  >
+                    {current.name}
+                  </h1>
+
+                  <p className="mt-1 font-rajdhani text-base md:text-lg text-gray-300">{current.position}</p>
+
+                  {/* Divider */}
+                  <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                  {/* System readout */}
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div className="neon-stat text-center px-2 py-3">
+                      <div className="stat-label text-xs sm:text-sm">TEAM</div>
+                      <div className="stat-value text-sm sm:text-base">{current.team}</div>
+                    </div>
+
+                    <div className="neon-stat text-center px-2 py-3">
+                      <div className="stat-label text-xs sm:text-sm">POSITION</div>
+                      <div className="stat-value text-sm sm:text-base">{current.position}</div>
+                    </div>
+
+                    <div className="neon-stat text-center px-2 py-3">
+                      <div className="stat-label text-xs sm:text-sm">SOCIAL</div>
+                      <div className="stat-value flex items-center justify-center gap-1 text-sm sm:text-base">
+                        <a
+                          href={current.social?.linkedin || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 hover:text-blue-400 transition"
+                        >
+                          <Linkedin size={14} className="sm:w-4 sm:h-4" />
+                          <span className="hidden sm:inline">LinkedIn</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="mt-auto pt-6 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={prev}
+                        aria-label="Previous"
+                        className={["h-10 w-10 grid place-items-center border border-white/20 hover:border-white/40","transition-colors","bg-black/40",].join(" ")}
+                      >
+                        <ChevronLeft className="h-5 w-5 text-white" />
+                      </button>
+                      <button
+                        onClick={() => setPlaying((p) => !p)}
+                        aria-label={playing ? "Pause" : "Play"}
+                        className={["h-10 w-10 grid place-items-center border border-white/20 hover:border-white/40","transition-colors","bg-black/40",].join(" ")}
+                      >
+                        {playing ? <Pause className="h-5 w-5 text-white" /> : <Play className="h-5 w-5 text-white" />}
+                      </button>
+                      <button
+                        onClick={next}
+                        aria-label="Next"
+                        className={["h-10 w-10 grid place-items-center border border-white/20 hover:border-white/40","transition-colors","bg-black/40",].join(" ")}
+                      >
+                        <ChevronRight className="h-5 w-5 text-white" />
+                      </button>
+                    </div>
+
+                    {/* Reel index */}
+                    <div className="font-mono text-xs text-gray-400">
+                      {index + 1}/{reel.length}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subtle corner notches to avoid plain rectangle feel */}
+              <div
+                className="pointer-events-none absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              />
+              <div
+                className="pointer-events-none absolute -bottom-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
               />
             </div>
+          </section>
 
-            {/* Details */}
-            <div className="p-3 sm:p-4 md:p-6 flex flex-col h-full">
-              <div className="flex flex-wrap gap-2 text-[10px] sm:text-xs">
-                <span className={`px-2 py-0.5 border ${accent.chip}`}>
-                  {current.team}
-                </span>
-                <span className="px-2 py-0.5 border border-white/20 text-gray-300">
-                  {current.year}
-                </span>
-              </div>
-
-              <h1
-                className={`mt-2 sm:mt-3 md:mt-4 font-orbitron font-extrabold leading-tight truncate ${accent.text} text-xl sm:text-2xl md:text-4xl`}
-              >
-                {current.name}
-              </h1>
-
-              <p className="mt-1 font-rajdhani text-sm sm:text-base md:text-lg text-gray-300">
-                {current.position}
-              </p>
-
-              {/* Stats */}
-              <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <div className="neon-stat text-center px-2 py-2">
-                  <div className="stat-label text-[10px] sm:text-xs">TEAM</div>
-                  <div className="stat-value text-sm">{current.team}</div>
-                </div>
-                <div className="neon-stat text-center px-2 py-2">
-                  <div className="stat-label text-[10px] sm:text-xs">
-                    POSITION
-                  </div>
-                  <div className="stat-value text-sm">{current.position}</div>
-                </div>
-                <div className="neon-stat text-center px-2 py-2">
-                  <div className="stat-label text-[10px] sm:text-xs">SOCIAL</div>
-                  <div className="stat-value flex justify-center">
-                    <a
-                      href={current.social?.linkedin || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 hover:text-blue-400 text-sm"
-                    >
-                      <Linkedin size={14} />
-                      <span className="hidden sm:inline">LinkedIn</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Controls */}
-              <div className="mt-auto pt-4 flex items-center justify-between">
-                <div className="hidden sm:flex items-center gap-2">
-                  <button
-                    onClick={prev}
-                    className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
-                  >
-                    <ChevronLeft className="h-5 w-5 text-white" />
-                  </button>
-                  <button
-                    onClick={() => setPlaying((p) => !p)}
-                    className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
-                  >
-                    {playing ? (
-                      <Pause className="h-5 w-5 text-white" />
-                    ) : (
-                      <Play className="h-5 w-5 text-white" />
-                    )}
-                  </button>
-                  <button
-                    onClick={next}
-                    className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center border border-white/20 bg-black/40 hover:border-white/40"
-                  >
-                    <ChevronRight className="h-5 w-5 text-white" />
-                  </button>
-                </div>
-                <div className="font-mono text-[10px] sm:text-xs text-gray-400">
-                  {index + 1}/{reel.length}
-                </div>
-              </div>
-            </div>
+          {/* Side hints */}
+          <div className="absolute bottom-4 left-0 right-0 z-20 flex items-center justify-center gap-6 text-[10px] md:text-xs text-gray-400 font-mono">
+            <span>SWIPE • ARROWS • SPACE</span>
           </div>
-        </div>
-      </section>
-
-      {/* bottom hints */}
-      <div className="pb-6 text-center text-[10px] sm:text-xs text-gray-400 font-mono">
-        SWIPE • ARROWS • SPACE
+        </main>
       </div>
-    </main>
+    </>
   );
 }
