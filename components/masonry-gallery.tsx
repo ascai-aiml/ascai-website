@@ -83,11 +83,11 @@ export function MasonryGallery() {
           {"SCROLL TO BROWSE • GLITCH GALLERY"}
         </div>
 
-        {/* Mobile: honeycomb-style grid (staggered two-column) */}
+        {/* Mobile: uniform grid, no vertical offset */}
         <div className="block sm:hidden relative">
           <div className="grid grid-cols-2 gap-4 px-2">
             {GALLERY.map((img, idx) => {
-              const mobileSize = img.emphasis === "tall" ? "h-[320px]" : img.emphasis === "wide" ? "h-[200px]" : "h-[240px]"
+              const mobileSize = "h-[220px]"; // uniform height for all images
               const accent =
                 idx % 4 === 0
                   ? "ring-orange-500/50"
@@ -96,12 +96,11 @@ export function MasonryGallery() {
                   : idx % 4 === 2
                   ? "ring-purple-500/50"
                   : "ring-green-500/50"
-              
+
               const blurClass = ""
 
               return (
                 <div key={`m-${idx}`} className="mb-4 relative">
-
                   <div
                     className={[
                       "group relative overflow-hidden bg-black/60 border border-white/10 backdrop-blur-sm",
@@ -110,7 +109,6 @@ export function MasonryGallery() {
                       "gallery-card glitch-hover",
                       blurClass,
                     ].join(" ")}
-                    style={{ transform: idx % 2 === 1 ? "translateY(18px)" : "none" }}
                   >
                     <div className={mobileSize + " relative w-full"}>
                       <Image src={img.src || "/placeholder.svg"} alt={img.alt} fill style={{ objectFit: "cover", transform: "scale(1.02)" }} />

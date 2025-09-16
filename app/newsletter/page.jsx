@@ -78,10 +78,10 @@ export default function NewsletterPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <article className="bg-black/60 border border-white/10 ring-1 ring-orange-500/40 p-6 backdrop-blur-sm">
-              <div className="text-orange-400 font-orbitron text-xl">EPOCH.AI 2022</div>
+              <div className="text-orange-400 font-orbitron text-xl">EPOCH.AI 2023</div>
               <p className="text-gray-300 font-rajdhani mt-2">Inaugural edition overview with schedules and winners.</p>
               <a
-                href="https://drive.google.com/file/d/1_UZuju0OOHPpbu2Ej6RJTAdbTbwvwmdi/view?usp=drivesdk"
+                href="https://drive.google.com/file/d/1AUuvOAVDz1Ea_gHQ2I1fY7mPHEjkiRyd/view?usp=drivesdk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex px-4 py-2 border border-white/20 bg-white/10 hover:bg-white/15 text-white transition-colors font-rajdhani"
@@ -91,10 +91,10 @@ export default function NewsletterPage() {
             </article>
 
             <article className="bg-black/60 border border-white/10 ring-1 ring-cyan-400/40 p-6 backdrop-blur-sm">
-              <div className="text-cyan-300 font-orbitron text-xl">EPOCH.AI 2023</div>
+              <div className="text-cyan-300 font-orbitron text-xl">EPOCH.AI 2024</div>
               <p className="text-gray-300 font-rajdhani mt-2">Evolution edition with expanded tracks and datasets.</p>
               <a
-                href="https://drive.google.com/file/d/1_TTS3pvilama-lhK5VizUfZXhq4SvGuJ/view?usp=drivesdk"
+                href="https://drive.google.com/file/d/1gqwWYx8bVhs1q56sBhf0X740NmBsIr2C/view?usp=drivesdk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex px-4 py-2 border border-white/20 bg-white/10 hover:bg-white/15 text-white transition-colors font-rajdhani"
@@ -104,7 +104,7 @@ export default function NewsletterPage() {
             </article>
 
             <article className="bg-black/60 border border-white/10 ring-1 ring-purple-500/40 p-6 backdrop-blur-sm">
-              <div className="text-purple-300 font-orbitron text-xl">EPOCH.AI 2024</div>
+              <div className="text-purple-300 font-orbitron text-xl">EPOCH.AI 2025</div>
               <p className="text-gray-300 font-rajdhani mt-2">
                 Future edition dossiers with speaker notes and modules.
               </p>
