@@ -260,9 +260,6 @@ export function HeroSection() {
             Professional computing intelligence research collective developing advanced technological solutions.
           </p>
 
-          {/* Greeting */}
-          <div className="text-green-400 font-mono text-lg opacity-80">{"HELLO CHAMP"}</div>
-
           {/* Symbols */}
           <div className="flex justify-center space-x-4 pb-8">
             {symbols.map((item, index) => (
@@ -305,8 +302,6 @@ export function HeroSection() {
             <p className="text-gray-400 text-lg max-w-lg font-rajdhani leading-relaxed">
               Professional computing intelligence research collective developing advanced technological solutions and educational frameworks.
             </p>
-
-            <div className="text-green-400 font-mono text-xl opacity-80">{"HELLO CHAMP"}</div>
 
             <div className="flex space-x-4">
               {symbols.map((item, index) => (
